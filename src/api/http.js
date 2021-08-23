@@ -5,7 +5,7 @@ axios.defaults.timeout = 5000
 // 允许跨域
 axios.defaults.withCredentials = true
 //  Content-Type 响应头
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 //  基础url
 axios.defaults.baseURL = 'http://localhost:8888'
 
@@ -60,6 +60,37 @@ export function get (url, params = {}) {
 export function post (url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.post(url, data)
+      .then(response => {
+        resolve(response.data)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+/**
+ * 封装delete方法
+ */
+
+export function deleteOne (url, params = {}) {
+  return new Promise((resolve, reject) => {
+    axios.delete(url, {params: params})
+      .then(response => {
+        resolve(response.data)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+/**
+ * 封装update方法
+ */
+export function updateOne (url, data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.put(url, data)
       .then(response => {
         resolve(response.data)
       })
