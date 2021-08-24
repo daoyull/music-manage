@@ -33,7 +33,7 @@ export default {
   },
   data(){
     return {
-      collapse: false
+      zxz: '测试'
     }
   },
   created(){

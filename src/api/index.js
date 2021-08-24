@@ -11,3 +11,14 @@ export const deleteSinger = (id) =>deleteOne (`/music/singer/delete/${id}`)
 
 export const updateSinger = (params) => post(`/music/singer/update`, params)
 
+export const getSongTable  = () => get(`/music/song/selectAllSong`,null)
+
+export const getNameById = (id) =>get(`/music/song/selectNameById/${id}`)
+
+export const addSong = (params) =>post(`/music/song/addSong`,params)
+
+export const deleteSong = (id) =>deleteOne (`/music/song/delete/${id}`)
+
+export const updateSong = (params) => post(`/music/song/update`, params)
+
+

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-
 Vue.use(Router)
 
 export default new Router({
@@ -23,13 +22,10 @@ export default new Router({
           component: resolve => require(['../pages/SingerList.vue'], resolve)
         },
         {
-          path: '/SingerList',
-          component: resolve => require(['../pages/SingerList.vue'], resolve)
+          path: '/Song',
+          component: resolve => require(['../pages/SongList.vue'], resolve)
         },
-        {
-          path: '/SingerInsert',
-          component: resolve => require(['../pages/SingerInsert.vue'], resolve)
-        }
+
       ]
     }
 
