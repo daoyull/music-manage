@@ -85,17 +85,4 @@ export function deleteOne (url, params = {}) {
   })
 }
 
-/**
- * 封装update方法
- */
-export function updateOne (url, data = {}) {
-  return new Promise((resolve, reject) => {
-    axios.put(url, data)
-      .then(response => {
-        resolve(response.data)
-      })
-      .catch(err => {
-        reject(err)
-      })
-  })
-}
+

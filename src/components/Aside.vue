@@ -17,7 +17,7 @@
         <span slot="title">歌曲管理</span>
       </el-menu-item>
 
-      <el-menu-item index="3">
+      <el-menu-item index="/SongList">
         <i class="el-icon-menu"></i>
         <span slot="title">歌单管理</span>
       </el-menu-item>

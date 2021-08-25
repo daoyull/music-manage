@@ -1,5 +1,4 @@
-import {getAllSinger} from '../api'
-import axios from 'axios'
+
 
 export const mixin = {
   methods: {
@@ -54,7 +53,7 @@ export const mixin = {
     handleAvatorSuccess (res) {
       let _this = this
       if (res.code == 1) {
-        _this.getData()
+        _this.Flush()
         _this.$notify({
           title: '上传成功',
           type: 'success'

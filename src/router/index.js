@@ -25,6 +25,10 @@ export default new Router({
           path: '/Song',
           component: resolve => require(['../pages/SongList.vue'], resolve)
         },
+        {
+          path: '/SongList',
+          component: resolve => require(['../pages/SongListTable.vue'],resolve)
+        }
 
       ]
     }

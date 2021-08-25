@@ -21,4 +21,12 @@ export const deleteSong = (id) =>deleteOne (`/music/song/delete/${id}`)
 
 export const updateSong = (params) => post(`/music/song/update`, params)
 
+export const getSongListTable = () => get(`/music/song-list/getAllSongListTable`, null)
 
+export const getAllType = () => get(`/music/type/getAllType`, null)
+
+export const addSongList = (params) =>post(`/music/song-list/addSongList`,params)
+
+export const deleteSongList = (id) =>deleteOne (`/music/song-list/delete/${id}`)
+
+export const updateSongList = (params) => post(`/music/song-list/updateSongList`, params)
