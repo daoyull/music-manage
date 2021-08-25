@@ -67,22 +67,5 @@ export const mixin = {
       }
     },
 
-     changeName (value) {
-      let singerName = new Promise ((resolve, reject) => {
-        getAllSinger()
-          .then(response => {
-            for (let item of response) {
-              if (item.id == value) {
-                resolve(item.name)
-              }
-            }
-          })
-      })
-
-     return  singerName
-
-     // return await singerName
-
-    },
   }
 }

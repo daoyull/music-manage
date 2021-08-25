@@ -45,8 +45,8 @@
         <el-table-column
           label="歌手" align="center" width="100px"
         >
-          <template slot-scope="scope"  v-for="item in singernames">
-            {{scope.row.singerId}}
+          <template slot-scope="scope">
+            {{ computedName(scope.row.singerId) }}
           </template>
 
         </el-table-column>
@@ -71,7 +71,7 @@
 
               @click="openEditTable(scope.row)"
             >
-              <!--              @click="handleEdit(scope.$index, scope.row)"-->
+
               编辑
             </el-button>
 
@@ -180,7 +180,6 @@ import {
   getAllSinger,
   getSongTable,
   updateSong,
-  getNameById
 } from '../api/index'
 import {mixin} from '../mixins/index'
 
@@ -200,6 +199,7 @@ export default {
         album: ''
       },
       editortable: {
+        id: '',
         lyric: '',
         album: '',
         singerID: ''
@@ -209,15 +209,14 @@ export default {
       searchOne: '',
       pageSize: 3,
       currentPage: 1,
-      currentFile: []
-
+      currentFile: [],
     }
   },
   methods: {
     getFile (file) {
       this.currentFile = file.raw
     },
-    getData () {
+    Flush () {
       this.tableDataOne = []
       getSongTable().then(res => {
         this.tableDataOne = res
@@ -233,12 +232,12 @@ export default {
 
       addSong(data).then(res => {
         if (res.code == 1) {
-          this.getData()
+          this.Flush()
           this.notify('删除成功', 'success')
         } else {
           this.notify('删除成功', 'error')
         }
-        getData()
+        get
       })
       this.centerDialogVisible = false
     },
@@ -246,22 +245,30 @@ export default {
       this.editorTable = true
       this.editortable = {
         id: row.id,
-        name: row.name,
-        sex: row.sex,
-        birth: row.birth,
-        introduction: row.introduction
+        singerId:row.singerId,
+        lyric: row.lyric,
+        album: row.album,
+
       }
     },
     savaSinger () {
-      updateSong(JSON.stringify(this.editortable))
+      let data = new FormData()
+      data.append('lyric', this.editortable.lyric)
+      data.append('singerId', this.editortable.singerID)
+      data.append('album', this.editortable.album)
+      data.append('id', this.editortable.id)
+      console.log(JSON.stringify(this.editortable))
+      updateSong(data)
         .then(res => {
           if (res.code == 1) {
-            this.getData()
+            this.Flush()
             this.notify('修改成功', 'success')
           } else {
             this.notify('修改失败', 'error')
           }
         })
+      this.editorTable=false
+
     },
     changePage (val) {
       this.currentPage = val
@@ -274,7 +281,7 @@ export default {
       deleteSong(row.id)
         .then(result => {
           if (result.code == 1) {
-            this.getData()
+            this.Flush()
             this.notify('删除成功', 'success')
           } else {
             this.notify('删除成功', 'error')
@@ -288,22 +295,26 @@ export default {
     }
 
   },
-  created () {
+  created: function () {
     getSongTable().then(res => {
-      for (let item of res) {
-        console.log(item.singerId)
-        getNameById(item.singerId).then(res => {
-          this.singernames.push(res)
-        })
-      }
 
-      this.tableDataOne = res
       this.tableDataTwo = res
+      this.tableDataOne = res
+
     })
 
     getAllSinger().then(res => {
-      this.options = res
-    })
+
+        for (let item of res) {
+
+          let jsonAry = {
+            id: item.id,
+            name: item.name
+          }
+          this.options.push(jsonAry)
+        }
+      }
+    )
   },
   watch: {
     searchOne: function () {
@@ -318,13 +329,25 @@ export default {
         }
       }
     }
-  },
+  }
+  ,
   computed: {
     //计算当前搜索结果表里的数据
     data () {
 
       return this.tableDataOne.slice((this.currentPage - 1) * this.pageSize, (this.currentPage - 1) * this.pageSize + this.pageSize)
+    },
+
+    computedName () {
+      return function (id) {
+        for (let item of this.options) {
+          if (id == item.id) {
+            return item.name
+          }
+        }
+      }
     }
+
   }
 
 }

@@ -6,11 +6,11 @@
         <el-form-item prop="username">
           <el-input v-model="ruleFrom.username" placeholder="用户名"></el-input>
         </el-form-item>
-        <el-form-item prop="password">
-          <el-input type="password" v-model="ruleFrom.password" placeholder="密码"></el-input>
+        <el-form-item prop="password" show-password>
+          <el-input type="password" v-model="ruleFrom.password" placeholder="密码" show-password></el-input>
         </el-form-item>
-        <div class="login_btn">
-          <el-button  type="primary" @click="submitFrom">登录</el-button>
+        <div class="login-btn">
+          <el-button type="primary" @click="submitFrom">登录</el-button>
         </div>
       </el-form>
     </div>
@@ -18,26 +18,49 @@
 </template>
 
 <script>
+import {getLoginStatus} from '../api/index'
+import {mixin} from '../mixins/index'
+
 export default {
+  mixins: [mixin],
   data: function () {
     return {
       ruleFrom: {
-        username: 'admin',
-        password: '123'
+        'username': 'admin',
+        'password': '1'
       },
       rules: {
         username: [
-          {required: true, message: '请输入用户名', trigger: 'blur'}
+          {'required': true, 'message': '请输入用户名', 'trigger': 'blur'}
         ],
         password: [
-          {required: true, message: '请输入密码', trigger: 'blur'}
+          {'required': true, 'message': '请输入密码', 'trigger': 'blur'}
         ]
       }
     }
   },
   methods: {
     submitFrom () {
-      alert('tijiao')
+      let params = new URLSearchParams()
+      params.append('name', this.ruleFrom.username)
+      params.append('password', this.ruleFrom.password)
+
+      console.log(params)
+      this.$router.push('/Info')
+      this.notify('登录成功', 'success')
+
+      // getLoginStatus(params)
+      //   .then((res) => {
+      //     if (res.code == 1) {
+      //       localStorage.setItem('userName',this.ruleFrom.username)
+      //       this.$router.push('/Info')
+      //       this.notify("登录成功", "success")
+      //     } else {
+      //       this.notify("登录失败", "error")
+      //
+      //     }
+      //   })
+
     }
   }
 }

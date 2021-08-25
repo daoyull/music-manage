@@ -39,8 +39,6 @@
               <el-button size="mini">更新图片</el-button>
             </el-upload>
           </template>
-
-
         </el-table-column>
 
         <el-table-column
@@ -213,7 +211,7 @@ export default {
     },
     //添加歌手
     addSinger () {
-      addSinger(JSON.stringify(this.editortable))
+      addSinger(JSON.stringify(this.dataTable))
         .then(res => {
           if (res.code == 1) {
             this.getData()
