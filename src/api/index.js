@@ -31,5 +31,10 @@ export const deleteSongList = (id) =>deleteOne (`/music/song-list/delete/${id}`)
 
 export const updateSongList = (params) => post(`/music/song-list/updateSongList`, params)
 
-
 export const addListSong = (parms) => post(`/music/list-song/add`,parms)
+
+export const getAllUser = () => get(`/music/consumer/getAll`, null)
+
+export const updateUser = (params) => post(`/music/consumer/updateUser`, params)
+
+export const deleteUser = (id) =>deleteOne (`/music/consumer/delete/${id}`)

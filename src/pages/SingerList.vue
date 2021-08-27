@@ -53,10 +53,6 @@
         <el-table-column
           label="出生日期" prop="birth" align="center" width="250px"
         >
-          <template slot-scope="scope">
-            {{ attachBirth(scope.row.birth) }}
-          </template>
-
         </el-table-column>
 
         <el-table-column
@@ -110,8 +106,9 @@
               <el-radio :label="2">组合</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item prop="birth" label="生日" size="mini">
+          <el-form-item prop="birth" label="生日" size="mini" >
             <el-date-picker type="date" placeholder="选择日期" v-model="dataTable.birth"
+                            value-format="yyyy-MM-dd"
                             style="width:100%"></el-date-picker>
           </el-form-item>
 
@@ -140,6 +137,7 @@
           </el-form-item>
           <el-form-item prop="birth" label="生日" size="mini">
             <el-date-picker type="date" placeholder="选择日期" v-model="editortable.birth"
+                            value-format="yyyy-MM-dd"
                             style="width:100%"></el-date-picker>
           </el-form-item>
 
@@ -211,13 +209,19 @@ export default {
     },
     //添加歌手
     addSinger () {
-      addSinger(JSON.stringify(this.dataTable))
+
+      let data = new FormData();
+      data.append("birth",this.dataTable.birth)
+      data.append("introduction",this.dataTable.introduction)
+      data.append("name",this.dataTable.name)
+      data.append("sex",this.dataTable.sex)
+      addSinger(data)
         .then(res => {
           if (res.code == 1) {
             this.Flush()
-            this.notify('添加成功', 'success')
+            this.notify(res.msg ,'success')
           } else {
-            this.notify('添加失败', 'error')
+            this.notify(res.msg , 'error')
           }
         })
         .catch(err => {
@@ -236,11 +240,18 @@ export default {
       }
     },
     savaSinger () {
-      console.log(this.editortable)
-      updateSinger(JSON.stringify(this.editortable))
+
+      let data = new FormData();
+      data.append("id",this.editortable.id)
+      data.append("birth",this.editortable.birth)
+      data.append("introduction",this.editortable.introduction)
+      data.append("name",this.editortable.name)
+      data.append("sex",this.editortable.sex)
+      updateSinger(data)
         .then(res => {
           if (res.code == 1) {
             this.Flush()
+            this.editorTable=false
             this.notify('修改成功', 'success')
           } else {
             this.notify('修改失败', 'error')
@@ -276,7 +287,6 @@ export default {
     getAllSinger().then(res => {
       this.tableDataOne = res
       this.tableDataTwo = res
-
     })
   },
   watch: {
