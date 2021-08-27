@@ -23,7 +23,7 @@
       <el-table :data="data" border style="width: 100%" height="500px">
 
         <el-table-column
-          label="歌名" prop="name" align="center" width="150px"
+          label="歌名" prop="name" align="center" width="100px"
         ></el-table-column>
 
         <el-table-column
@@ -62,16 +62,22 @@
 
 
         <el-table-column
-          align="center" label="操作">
+          align="center" label="操作" width="300px">
 
           <template slot-scope="scope">
+
             <el-button
               size="mini"
+              type="primary"
+              @click="start(scope.row)">
+              点击播放暂停
+            </el-button>
 
 
-              @click="openEditTable(scope.row)"
-            >
-
+            <el-button
+              size="mini"
+              type="warning"
+              @click="openEditTable(scope.row)">
               编辑
             </el-button>
 
@@ -95,7 +101,15 @@
       >
       </el-pagination>
 
-      <!--      添加歌手-->
+      <audio id="player"
+             :src=url
+             preload
+             autoplay
+      >
+      </audio>
+
+
+      <!--      添加歌曲-->
       <el-dialog title="添加歌曲" :visible.sync="centerDialogVisible" width="400px" center>
         <el-form :model="dataTable" ref="dataTable" label-width="80px">
 
@@ -157,11 +171,12 @@
               </el-option>
             </el-select>
           </el-form-item>
+
         </el-form>
         <span slot="footer">
+
                 <el-button size="mini" @click="editorTable = false">取消</el-button>
                 <el-button size="mini" @click="savaSinger">确定</el-button>
-
             </span>
       </el-dialog>
     </div>
@@ -189,9 +204,9 @@ export default {
     return {
       centerDialogVisible: false,
       editorTable: false,
+      url: '',
+      isPlay: false,
       options: [],
-      singername: '',
-      singernames: [],
       dataTable: {
         lyric: '',
         file: '',
@@ -204,6 +219,8 @@ export default {
         album: '',
         singerID: ''
       },
+      singername: '',
+      singernames: [],
       tableDataOne: [],
       tableDataTwo: [],
       searchOne: '',
@@ -213,6 +230,15 @@ export default {
     }
   },
   methods: {
+    start (row) {
+      this.url = `${this.$store.state.HOST}` + row.url
+      let music = document.querySelector('#player')
+      if(music.paused){
+        music.play()
+      }else{
+        music.pause()
+      }
+    },
     getFile (file) {
       this.currentFile = file.raw
     },
@@ -245,7 +271,7 @@ export default {
       this.editorTable = true
       this.editortable = {
         id: row.id,
-        singerId:row.singerId,
+        singerId: row.singerId,
         lyric: row.lyric,
         album: row.album,
 
@@ -267,7 +293,7 @@ export default {
             this.notify('修改失败', 'error')
           }
         })
-      this.editorTable=false
+      this.editorTable = false
 
     },
     changePage (val) {

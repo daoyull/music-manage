@@ -30,3 +30,6 @@ export const addSongList = (params) =>post(`/music/song-list/addSongList`,params
 export const deleteSongList = (id) =>deleteOne (`/music/song-list/delete/${id}`)
 
 export const updateSongList = (params) => post(`/music/song-list/updateSongList`, params)
+
+
+export const addListSong = (parms) => post(`/music/list-song/add`,parms)

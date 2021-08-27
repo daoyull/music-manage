@@ -203,7 +203,7 @@ export default {
     }
   },
   methods: {
-    getData () {
+    Flush () {
       this.tableDataOne = []
       getAllSinger().then(res => {
         this.tableDataOne = res
@@ -214,7 +214,7 @@ export default {
       addSinger(JSON.stringify(this.dataTable))
         .then(res => {
           if (res.code == 1) {
-            this.getData()
+            this.Flush()
             this.notify('添加成功', 'success')
           } else {
             this.notify('添加失败', 'error')
@@ -240,7 +240,7 @@ export default {
       updateSinger(JSON.stringify(this.editortable))
         .then(res => {
           if (res.code == 1) {
-            this.getData()
+            this.Flush()
             this.notify('修改成功', 'success')
           } else {
             this.notify('修改失败', 'error')
@@ -258,7 +258,7 @@ export default {
       deleteSinger(row.id)
         .then(result => {
           if (result.code == 1) {
-            this.getData()
+            this.Flush()
             this.notify('删除成功', 'success')
           } else {
             this.notify('删除成功', 'error')
